@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <codecvt>
+#include <cstdlib>
 
 #include "Grid.hh"
 #include "Text.hh"
@@ -20,6 +21,21 @@ Chess :: Chess(){
     win = false;
     difficulty = false;
     player_color = WHITE;
+
+    create_pieces( BlackPieces , BLACK );
+    create_pieces( WhitePieces , WHITE );
+
+    for (int i = 0; i < CHESSBOARD_SIZE_X; ++i){
+
+        squares_taken[i][0] = 0; //Black pieces
+        squares_taken[i][1] = 0;
+        squares_taken[i][6] = 1; //White pieces
+        squares_taken[i][7] = 1;
+
+        for (int j = 2; j < 6; ++j){
+            squares_taken[i][j] = -1; //no piece
+        }
+    }
 }
 
 std::wstring Chess :: string_to_wstring(const std::string& Str) {
@@ -102,7 +118,45 @@ int Chess :: get_piece_index_from_square( std::vector<Piece> &vec , sf::Vector2i
     return -1;            
 }
 
-bool Chess :: is_move_legal( sf::Vector2i &square_clicked , int piece ){
+bool Chess :: is_move_legal( sf::Vector2i &square_clicked , int piece , bool piece_color ){
+
+    size_t destination_x = (size_t) square_clicked.x;
+    size_t destination_y = (size_t) square_clicked.y;
+    size_t piece_x , piece_y;
+
+    if( squares_taken[destination_x][destination_y] != -1 && squares_taken[destination_x][destination_y] == piece_color ){ //If an ally piece is on the destination square
+        return false;
+    }
+
+    if( piece_color ){
+        piece_x = WhitePieces[piece].get_x_square();
+        piece_y = WhitePieces[piece].get_y_square(); 
+    }
+    else{
+        piece_x = BlackPieces[piece].get_x_square();
+        piece_y = BlackPieces[piece].get_y_square();    
+    }
+
+    if( piece == KING ){
+        if( abs( destination_x - piece_x ) > 1 || abs( destination_y - piece_y ) > 1 ){
+            return false;
+        }
+    }
+    else if( piece == QUEEN ){
+
+    }
+    else if( piece == ROOK_LEFT || piece == ROOK_RIGHT ){
+
+    }
+    else if( piece == KNIGHT_LEFT || piece == KNIGHT_RIGHT ){
+
+    }
+    else if( piece == BISHOP_LEFT || piece == BISHOP_RIGHT ) {
+
+    }
+    else{ //pawn
+
+    }
     return true;
 }
 
@@ -110,11 +164,6 @@ void Chess :: run(){
 
 	sf::RenderWindow window(sf::VideoMode(X_WINDOW, Y_WINDOW), "Chess");
 	Grid grid( CHESSBOARD_SIZE_X , CHESSBOARD_SIZE_Y , SQUARE_SIZE);
-
-    std::vector<Piece> BlackPieces;
-    create_pieces( BlackPieces , BLACK );
-    std::vector<Piece> WhitePieces;
-    create_pieces( WhitePieces , WHITE );
     
     bool first_click_done = false;
     int piece;
@@ -153,13 +202,19 @@ void Chess :: run(){
                     int y = sf::Mouse::getPosition(window).y;
                     square_clicked = grid.get_square_from_coordinates( x , y );
 
-                    if( is_move_legal( square_clicked , piece ) ){
+                    if( is_move_legal( square_clicked , piece , player_color ) ){
                         if( player_color ){
+                            x = (int) WhitePieces[piece].get_x_square();
+                            y = (int) WhitePieces[piece].get_y_square();
                             WhitePieces[piece].move(square_clicked);
                         }
                         else{
+                            x = (int) BlackPieces[piece].get_x_square();
+                            y = (int) BlackPieces[piece].get_y_square();                            
                             BlackPieces[piece].move(square_clicked);          
                         }
+                        squares_taken[square_clicked.x][square_clicked.y] = player_color;
+                        squares_taken[x][y] = -1;
                     }
                     first_click_done = false;
                 }    

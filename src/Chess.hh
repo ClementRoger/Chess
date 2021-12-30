@@ -29,6 +29,15 @@
 #define QUEEN_STARTING_SQUARE 3
 #define KING_STARTING_SQUARE 4
 
+#define KING 0
+#define QUEEN 1
+#define ROOK_LEFT 2
+#define ROOK_RIGHT 3
+#define KNIGHT_LEFT 4
+#define KNIGHT_RIGHT 5
+#define BISHOP_LEFT 6
+#define BISHOP_RIGHT 7
+
 class Chess{
 
 	public:
@@ -38,8 +47,11 @@ class Chess{
 		std::wstring string_to_wstring(const std::string& Str);
 		void display_coordinates(sf::RenderWindow &window , Grid grid);
 		void create_pieces( std::vector<Piece> &vec , bool color );
-		bool is_move_legal( sf::Vector2i &square_clicked , int piece );
+		bool is_move_legal( sf::Vector2i &square_clicked , int piece , bool color );
 		int get_piece_index_from_square( std::vector<Piece> &vec , sf::Vector2i &square_clicked );
+
+		int is_square_taken( size_t i , size_t j ){ return squares_taken[i][j]; }
+
 
 	private:	
 
@@ -47,4 +59,7 @@ class Chess{
 		bool win;
 		bool difficulty; //True if easy, false if difficult
 		bool player_color; //True if white, false if black
+		int squares_taken[8][8]; //1 if white piece on it, 0 if black piece on it, -1 if no piece
+		std::vector<Piece> BlackPieces;
+		std::vector<Piece> WhitePieces;
 };
