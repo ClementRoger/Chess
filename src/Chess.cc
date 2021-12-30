@@ -202,20 +202,22 @@ void Chess :: run(){
                     int y = sf::Mouse::getPosition(window).y;
                     square_clicked = grid.get_square_from_coordinates( x , y );
 
-                    if( is_move_legal( square_clicked , piece , player_color ) ){
-                        if( player_color ){
-                            x = (int) WhitePieces[piece].get_x_square();
-                            y = (int) WhitePieces[piece].get_y_square();
-                            WhitePieces[piece].move(square_clicked);
+                    if( square_clicked.x != -1 && square_clicked.y != -1 ){
+                        if( is_move_legal( square_clicked , piece , player_color ) ){
+                            if( player_color ){
+                                x = (int) WhitePieces[piece].get_x_square();
+                                y = (int) WhitePieces[piece].get_y_square();
+                                WhitePieces[piece].move(square_clicked);
+                            }
+                            else{
+                                x = (int) BlackPieces[piece].get_x_square();
+                                y = (int) BlackPieces[piece].get_y_square();                            
+                                BlackPieces[piece].move(square_clicked);          
+                            }
+                            squares_taken[square_clicked.x][square_clicked.y] = player_color;
+                            squares_taken[x][y] = -1;
                         }
-                        else{
-                            x = (int) BlackPieces[piece].get_x_square();
-                            y = (int) BlackPieces[piece].get_y_square();                            
-                            BlackPieces[piece].move(square_clicked);          
-                        }
-                        squares_taken[square_clicked.x][square_clicked.y] = player_color;
-                        squares_taken[x][y] = -1;
-                    }
+                    }    
                     first_click_done = false;
                 }    
             } 
