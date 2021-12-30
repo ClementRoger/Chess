@@ -7,20 +7,12 @@
 #include "Grid.hh"
 #include "Text.hh"
 #include "Chess.hh"
-
-#define X_WINDOW 800
-#define Y_WINDOW 800
-#define SQUARE_SIZE 75
-#define CHESSBOARD_SIZE_X 8
-#define CHESSBOARD_SIZE_Y 8
-#define LATEX_FONT "../fonts/cmunss.ttf"
-#define CHARACTER_SIZE 30
-#define BOLD true
-#define NON_ITALIC false
-#define NON_UNDERLINED false
-#define NO_ROTATION 0
-#define HALF_REVOLUTION_ROTATION 180
-#define NO_ROTATION 0
+#include "Bishop.hh"
+#include "Knight.hh"
+#include "Queen.hh"
+#include "King.hh"
+#include "Pawn.hh"
+#include "Rook.hh"
 
 Chess :: Chess(){
 
@@ -37,7 +29,7 @@ std::wstring Chess :: string_to_wstring(const std::string& Str) {
 
 void Chess :: display_coordinates(sf::RenderWindow &window , Grid grid){
 
-	sf::Color color = sf::Color{ 3 , 34 , 76 };
+	sf::Color color = sf::Color{ 3 , 34 , 160 }; //Dark blue
 
 	for (int i = 0; i < CHESSBOARD_SIZE_X; ++i){ //Letters of the bottom of the chessboard
         char letter = 'A' + i;
@@ -62,10 +54,52 @@ void Chess :: display_coordinates(sf::RenderWindow &window , Grid grid){
     }
 } 
 
+void Chess :: create_pieces( std::vector<Piece> &vec , bool color ){
+
+    std::size_t j_pawns;
+    int delta;
+
+    if( color == WHITE ){
+        j_pawns = 6; //white pawns are on the fifth row
+        delta = 1;
+    }
+    else{
+        j_pawns = 1;  //black pawns are on the second row
+        delta = -1;
+    }
+
+    King king( color , KING_STARTING_SQUARE , j_pawns + delta );
+    vec.push_back( king );
+    Queen queen( color , QUEEN_STARTING_SQUARE , j_pawns + delta );
+    vec.push_back( queen );
+    Rook rook_left( color , ROOK_STARTING_SQUARE , j_pawns + delta );
+    vec.push_back( rook_left );
+    Rook rook_right( color , CHESSBOARD_SIZE_X - ROOK_STARTING_SQUARE - 1 , j_pawns + delta );
+    vec.push_back( rook_right );
+    Knight knight_left( color , KNIGHT_STARTING_SQUARE , j_pawns + delta );
+    vec.push_back( knight_left );
+    Knight knight_right( color , CHESSBOARD_SIZE_X - KNIGHT_STARTING_SQUARE - 1 , j_pawns + delta );
+    vec.push_back( knight_right );
+    Bishop bishop_left( color , BISHOP_STARTING_SQUARE , j_pawns + delta );
+    vec.push_back( bishop_left );
+    Bishop bishop_right( color , CHESSBOARD_SIZE_X - BISHOP_STARTING_SQUARE - 1 , j_pawns + delta );
+    vec.push_back( bishop_right );
+
+    for (int i = 0; i < CHESSBOARD_SIZE_X; ++i){
+        Pawn pawn( color , i , j_pawns );
+        vec.push_back( pawn );
+    }
+}
+
 void Chess :: run(){
 
 	sf::RenderWindow window(sf::VideoMode(X_WINDOW, Y_WINDOW), "Chess");
 	Grid grid( CHESSBOARD_SIZE_X , CHESSBOARD_SIZE_Y , SQUARE_SIZE);
+
+    std::vector<Piece> BlackPieces;
+    create_pieces( BlackPieces , BLACK );
+    std::vector<Piece> WhitePieces;
+    create_pieces( WhitePieces , WHITE );
 
 	while( window.isOpen() ){
 
@@ -79,6 +113,14 @@ void Chess :: run(){
         window.clear(sf::Color::White);
 		grid.display(window);
 		display_coordinates(window , grid);
-		window.display();
+        
+        for( Piece p : BlackPieces ){
+            p.display(window , grid);
+        }
+        for( Piece p : WhitePieces ){
+            p.display(window , grid);
+        }    
+		
+        window.display();
 	}
 } 

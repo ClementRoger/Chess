@@ -61,10 +61,10 @@ void Grid :: display(sf::RenderWindow& window) {
 			switch(colors_array[i][j]){
 
 				case 0:
-					color = sf::Color{ 30 , 30 , 30 };
+					color = sf::Color{ 0 , 92 , 131 }; //blue
 					break;
 				case 1:
-					color = sf::Color{ 230 , 230 , 230 };
+					color = sf::Color{ 226 , 226 , 226 }; //gray
 					break;		
 			}
 			sf::RectangleShape square = draw_square(window, x_init + i * (Square_Size + SPACE_BETWEEN_SQUARES), y_init + j * (Square_Size + SPACE_BETWEEN_SQUARES), Square_Size, color);
