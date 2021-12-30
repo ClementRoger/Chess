@@ -38,10 +38,13 @@ class Chess{
 		std::wstring string_to_wstring(const std::string& Str);
 		void display_coordinates(sf::RenderWindow &window , Grid grid);
 		void create_pieces( std::vector<Piece> &vec , bool color );
+		bool is_move_legal( sf::Vector2i &square_clicked , int piece );
+		int get_piece_index_from_square( std::vector<Piece> &vec , sf::Vector2i &square_clicked );
 
 	private:	
 
 		bool play_again;
 		bool win;
 		bool difficulty; //True if easy, false if difficult
+		bool player_color; //True if white, false if black
 };

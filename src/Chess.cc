@@ -19,6 +19,7 @@ Chess :: Chess(){
 	play_again = false;
     win = false;
     difficulty = false;
+    player_color = WHITE;
 }
 
 std::wstring Chess :: string_to_wstring(const std::string& Str) {
@@ -91,6 +92,20 @@ void Chess :: create_pieces( std::vector<Piece> &vec , bool color ){
     }
 }
 
+int Chess :: get_piece_index_from_square( std::vector<Piece> &vec , sf::Vector2i &square_clicked ){
+
+    for (int i = 0; i < 2 * CHESSBOARD_SIZE_X; ++i){   
+        if( (int)vec[i].get_x_square() == square_clicked.x && (int)vec[i].get_y_square() == square_clicked.y ){
+            return i;
+        }
+    }
+    return -1;            
+}
+
+bool Chess :: is_move_legal( sf::Vector2i &square_clicked , int piece ){
+    return true;
+}
+
 void Chess :: run(){
 
 	sf::RenderWindow window(sf::VideoMode(X_WINDOW, Y_WINDOW), "Chess");
@@ -100,6 +115,10 @@ void Chess :: run(){
     create_pieces( BlackPieces , BLACK );
     std::vector<Piece> WhitePieces;
     create_pieces( WhitePieces , WHITE );
+    
+    bool first_click_done = false;
+    int piece;
+    sf::Vector2i square_clicked;
 
 	while( window.isOpen() ){
 
@@ -108,6 +127,42 @@ void Chess :: run(){
 
             if (event.type == sf::Event::Closed){
                 window.close();                
+            }
+
+            if (event.type == sf::Event::MouseButtonPressed){
+
+                if( !first_click_done ){
+                    
+                    int x = sf::Mouse::getPosition(window).x;
+                    int y = sf::Mouse::getPosition(window).y;
+                    square_clicked = grid.get_square_from_coordinates( x , y );
+
+                    if( player_color ){
+                        piece = get_piece_index_from_square( WhitePieces , square_clicked );
+                    }
+                    else{     
+                        piece = get_piece_index_from_square( BlackPieces , square_clicked );
+                    }
+
+                    if( piece != -1 ){ //if click is on a piece and that the piece is of the right color
+                        first_click_done = true;
+                    }
+                }
+                else{
+                    int x = sf::Mouse::getPosition(window).x;
+                    int y = sf::Mouse::getPosition(window).y;
+                    square_clicked = grid.get_square_from_coordinates( x , y );
+
+                    if( is_move_legal( square_clicked , piece ) ){
+                        if( player_color ){
+                            WhitePieces[piece].move(square_clicked);
+                        }
+                        else{
+                            BlackPieces[piece].move(square_clicked);          
+                        }
+                    }
+                    first_click_done = false;
+                }    
             } 
         }
         window.clear(sf::Color::White);

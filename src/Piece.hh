@@ -15,8 +15,10 @@ class Piece{
 
 		Piece( bool color , std::size_t square_x , std::size_t square_y );
 		void display( sf::RenderWindow &window , Grid grid );
-		void set_x( size_t x ){ square_x = x; }
-		void set_y( size_t y ){ square_y = y; }
+		void move( sf::Vector2i& pos );
+		
+		size_t get_x_square(){ return square_x; }
+		size_t get_y_square(){ return square_y; }
 
 	private:	
 

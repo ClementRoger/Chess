@@ -14,6 +14,9 @@
 #define X_WINDOW 800
 #define Y_WINDOW 800
 #define SPACE_BETWEEN_SQUARES 0
+#define CHESSBOARD_SIZE_X 8
+#define CHESSBOARD_SIZE_Y 8
+#define SQUARE_SIZE 75
 
 using namespace std;
 
@@ -71,4 +74,22 @@ void Grid :: display(sf::RenderWindow& window) {
 			rectangles_array[i][j] = square;
 		}	
 	}
+}
+
+sf::Vector2i Grid :: get_square_from_coordinates( int x , int y ){
+
+	for (int i = 0; i < CHESSBOARD_SIZE_X; ++i){
+		for (int j = 0; j < CHESSBOARD_SIZE_Y; ++j){
+			int x_square = get_rectangle( i , j ).getPosition().x;
+			int y_square = get_rectangle( i , j ).getPosition().y;
+
+			if( x >= x_square && x <= (x_square + SQUARE_SIZE) && y >= y_square && y <= (y_square + SQUARE_SIZE) ){
+				sf::Vector2i v( i , j );
+				return v;
+			}
+		}
+	}
+
+	sf::Vector2i v( -1 , -1 );
+	return v;
 }

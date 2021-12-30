@@ -21,3 +21,9 @@ void Piece :: display( sf::RenderWindow &window , Grid grid ){
     Image piece( window , x , y , WIDTH , HEIGHT , image_path );
     piece.display( window );
 }
+
+void Piece :: move( sf::Vector2i &pos ){
+
+    square_x = pos.x;
+    square_y = pos.y;
+}

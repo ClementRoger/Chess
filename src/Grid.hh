@@ -10,6 +10,7 @@ class Grid{
 		Grid(size_t nb_x, size_t nb_y, size_t square_size);
 		sf::RectangleShape draw_square(sf::RenderWindow& window, const size_t x, const size_t y, const size_t size, const sf::Color& color);
 		void display(sf::RenderWindow& window);
+		sf::Vector2i get_square_from_coordinates( int x , int y );
 
 		sf::RectangleShape get_rectangle( size_t i , size_t j ){ return rectangles_array[i][j]; }
 
