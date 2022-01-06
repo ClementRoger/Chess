@@ -146,7 +146,42 @@ bool Chess :: is_move_legal( sf::Vector2i &square_clicked , int piece , bool pie
 
     }
     else if( piece == ROOK_LEFT || piece == ROOK_RIGHT ){
+        
+        if( piece_x == destination_x){
+            int mul = -1;
+            if( destination_y - piece_y < 0 ){
+                mul = 1;
+            }
+            
+            for (int i = 1; i < abs(destination_y - piece_y); ++i){
 
+                if( squares_taken[piece_x][piece_y  + mul * i] != -1 ){
+                    return false;
+                }
+                else{
+                    return true;
+                }            
+            }
+            
+        }
+        else if( piece_y == destination_y ){
+            int mul = -1;
+            if( destination_x - piece_x < 0 ){
+                mul = 1;
+            }
+            
+            for (int i = 1; i < abs(destination_x - piece_x); ++i){
+                if( squares_taken[piece_x + mul * i][piece_y] != -1 ){
+                    return false;
+                }
+                else{
+                    return true;
+                }            
+            }        
+        }
+        else{
+            return false;
+        }
     }
     else if( piece == KNIGHT_LEFT || piece == KNIGHT_RIGHT ){
 
@@ -156,6 +191,41 @@ bool Chess :: is_move_legal( sf::Vector2i &square_clicked , int piece , bool pie
     }
     else{ //pawn
 
+        if( piece_color ){
+
+            if( abs( piece_x - destination_x ) == 1 && destination_y == (piece_y - 1) && squares_taken[destination_x][destination_y] == 0 ){
+                return true; //eat
+            }
+            else if( piece_x == destination_x ){
+                if( squares_taken[destination_x][destination_y] == -1 ){
+                    if( piece_y == 6 ){
+                        if( destination_y == 5 || (destination_y == 4 && squares_taken[destination_x][5] == -1) ){
+                            return true;
+                        }
+                        else{
+                            return false;
+                        }
+                    }
+                    else{
+                        if( piece_y - destination_y == 1 ){
+                            return true;
+                        }
+                        else{
+                            return false;
+                        }
+                    }    
+                }
+                else{
+                    return false;
+                }
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            //blacks, to do
+        }
     }
     return true;
 }
