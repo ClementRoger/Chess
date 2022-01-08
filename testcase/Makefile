@@ -1,10 +1,10 @@
 CC=g++
 CCFLAGS= -Wall -Werror -std=c++11 -g
 LIBFLAGS= -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
-SRC= $(wildcard ../*.cc)
+SRC= $(wildcard ../src/*.cc)
 OBJ= $(SRC:.cc=.o)
 TST= $(wildcard *.cc)
-OBJ_TEST = $(filter-out ../main.o, $(OBJ)) $(TST:.cc=.o)
+OBJ_TEST = $(filter-out ../src/main.o, $(OBJ)) $(TST:.cc=.o)
 
 Testcase : $(OBJ_TEST) 
 	$(CC) $^ -o $@ $(LIBFLAGS)

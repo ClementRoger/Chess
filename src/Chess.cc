@@ -119,50 +119,39 @@ int Chess :: get_piece_index_from_square( std::vector<Piece> &vec , sf::Vector2i
 }
 
 bool Chess :: is_rook_move_legal( size_t piece_x , size_t piece_y , size_t destination_x , size_t destination_y ){
-    
-    std :: cout << "Case de la tour : (" << piece_x << "," << piece_y << ")\n";
-    std :: cout << "Case de destination : (" << destination_x << "," << destination_y << ")\n";
 
     if( piece_x == destination_x){
-        int mul = -1;
-        if( destination_y - piece_y < 0 ){
-            mul = 1;
+        int mul = 1;
+        if( destination_y < piece_y ){
+            mul = -1;
         }
             
-        for (int i = 1; i < abs(destination_y - piece_y); ++i){
-            if( squares_taken[piece_x][piece_y  + mul * i] != -1 ){
-                std :: cout << "Case (" << piece_x << "," << piece_y + mul * i << ") non libre\n";
+        for (int j = 1; j < abs(destination_y - piece_y); ++j){
+            if( squares_taken[piece_x][piece_y + mul * j] != -1 ){
                 return false;
-            }
-            else{
-                std :: cout << "Case (" << piece_x << "," << piece_y + mul * i << ") libre\n";
-                return true;
-            }            
+            }        
         }
+        return true;
             
     }
     else if( piece_y == destination_y ){
-        int mul = -1;
-        if( destination_x - piece_x < 0 ){
-            mul = 1;
+        int mul = 1;
+        if( destination_x < piece_x ){
+            mul = -1;
         }
             
         for (int i = 1; i < abs(destination_x - piece_x); ++i){
             if( squares_taken[piece_x + mul * i][piece_y] != -1 ){
-                std :: cout << "Case (" << piece_x << "," << piece_y + mul * i << ") non libre\n"; 
                 return false;
-            }
-            else{
-                std :: cout << "Case (" << piece_x << "," << piece_y + mul * i << ") libre\n";
-                return true;
-            }            
-        }        
+            }           
+        }
+        return true;        
     }
     else{
         return false;
     }
 
-    return false;
+    return false; //Avoid warning
 }
 
 bool Chess :: is_move_legal( sf::Vector2i &square_clicked , int piece , bool piece_color ){
