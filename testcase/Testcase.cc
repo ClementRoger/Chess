@@ -89,3 +89,55 @@ TEST_CASE("1 : Pawn move test") {
 		}
 	}	
 }
+
+TEST_CASE("2 : King move test") {
+
+	Chess chess;
+	sf::Vector2i v;
+
+	//Beginning of the game, the king cannot move
+	v.x = KING_STARTING_SQUARE - 1; v.y = 7;
+	REQUIRE( chess.is_move_legal( v , KING , WHITE ) == false );
+	v.x = KING_STARTING_SQUARE + 1; v.y = 7;
+	REQUIRE( chess.is_move_legal( v , KING , WHITE ) == false );
+	v.x = KING_STARTING_SQUARE - 1; v.y = 6;
+	REQUIRE( chess.is_move_legal( v , KING , WHITE ) == false );
+	v.x = KING_STARTING_SQUARE; v.y = 6;
+	REQUIRE( chess.is_move_legal( v , KING , WHITE ) == false );
+	v.x = KING_STARTING_SQUARE + 1; v.y = 6;
+	REQUIRE( chess.is_move_legal( v , KING , WHITE ) == false );
+
+	v.x = 4; v.y = 4;
+	chess.move( v , KING , WHITE );
+	//Check move function
+	REQUIRE( chess.get_piece( KING , WHITE ).get_x_square() == v.x );
+	REQUIRE( chess.get_piece( KING , WHITE ).get_y_square() == v.y );
+
+	//King in the middle of the chessboard, can move everywhere
+	v.x = 5; v.y = 4;
+	REQUIRE( chess.is_move_legal( v , KING , WHITE ) == true );
+	v.x = 5; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , KING , WHITE ) == true );
+	v.x = 5; v.y = 3;
+	REQUIRE( chess.is_move_legal( v , KING , WHITE ) == true );
+	v.x = 4; v.y = 3;
+	REQUIRE( chess.is_move_legal( v , KING , WHITE ) == true );
+	v.x = 3; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , KING , WHITE ) == true );
+	v.x = 3; v.y = 3;
+	REQUIRE( chess.is_move_legal( v , KING , WHITE ) == true );
+	v.x = 3; v.y = 4;
+	REQUIRE( chess.is_move_legal( v , KING , WHITE ) == true );
+	v.x = 3; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , KING , WHITE ) == true );
+
+	//Cannot move more than one square
+	v.x = 2; v.y = 4;
+	REQUIRE( chess.is_move_legal( v , KING , WHITE ) == false );
+	v.x = 4; v.y = 6;
+	REQUIRE( chess.is_move_legal( v , KING , WHITE ) == false );
+	v.x = 7; v.y = 7;
+	REQUIRE( chess.is_move_legal( v , KING , WHITE ) == false );	
+	v.x = 0; v.y = 0;
+	REQUIRE( chess.is_move_legal( v , KING , WHITE ) == false );
+}	
