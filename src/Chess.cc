@@ -153,7 +153,36 @@ bool Chess :: is_pawn_move_legal( size_t piece_x , size_t piece_y , size_t desti
         }
     }
     else{
-        //blacks, to do
+
+        if( abs( piece_x - destination_x ) == 1 && destination_y == (piece_y + 1) && squares_taken[destination_x][destination_y] == 1 ){
+            return true; //eat
+        }
+        else if( piece_x == destination_x ){
+            if( squares_taken[destination_x][destination_y] == -1 ){
+                if( piece_y == 1 ){
+                    if( destination_y == 2 || (destination_y == 3 && squares_taken[destination_x][2] == -1) ){
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
+                }
+                else{
+                    if( destination_y - piece_y == 1 ){
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
+                }    
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
     }
     return false; //Avoid warning
 }

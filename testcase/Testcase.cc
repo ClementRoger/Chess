@@ -19,7 +19,7 @@
 #define BISHOP_RIGHT 7
 #define PAWN1 8
 	
-TEST_CASE("1 : Pawn moves test") {
+TEST_CASE("1 : White pawn moves test") {
 
 	Chess chess;
 
@@ -48,7 +48,7 @@ TEST_CASE("1 : Pawn moves test") {
 
 		//Cannot go diagonal if there is no opponent
 		if( i > 1 ){
-			v.x = i - 1; v.y = 1;
+			v.x = i - 1; v.y = 6;
 			REQUIRE( chess.is_move_legal( v , PAWN1 + i , WHITE ) == false );
 		}
 		if( i < 7 ){
@@ -56,10 +56,9 @@ TEST_CASE("1 : Pawn moves test") {
 			REQUIRE( chess.is_move_legal( v , PAWN1 + i , WHITE ) == false );	
 		}
 
-
-		for (int j = 0; j < 2; ++j){
+		for (int j = 1; j < 3; ++j){
 			
-			v.x = i; v.y = j + 1;
+			v.x = i; v.y = j;
 			chess.move( v , PAWN1 + i , WHITE );
 
 			//Check move function
@@ -68,16 +67,108 @@ TEST_CASE("1 : Pawn moves test") {
 
 			//Eat opponent
 			if( i > 1 ){
-				v.x = i - 1; v.y = j;
+				v.x = i - 1; v.y = j - 1;
 				REQUIRE( chess.is_move_legal( v , PAWN1 + i , WHITE ) == true );
 			}
 			if( i < 7 ){
-				v.x = i + 1; v.y = j;
+				v.x = i + 1; v.y = j - 1;
 				REQUIRE( chess.is_move_legal( v , PAWN1 + i , WHITE ) == true );	
 			}
 			//Cannot go up as there is an opponent in front
-			v.x = i; v.y = j;
+			v.x = i; v.y = j - 1;
 			REQUIRE( chess.is_move_legal( v , PAWN1 + i , WHITE ) == false );
+
+			//Cannot go down
+			v.x = i; v.y = j + 1;
+			REQUIRE( chess.is_move_legal( v , PAWN1 + i , WHITE ) == false );
+
+			//Cannot go left nor right
+			if( i < 7 ){
+				v.x = i + 1; v.y = j;
+				REQUIRE( chess.is_move_legal( v , PAWN1 + i , WHITE ) == false );
+			}
+			if( i > 1 ){
+				v.x = i - 1; v.y = j;
+				REQUIRE( chess.is_move_legal( v , PAWN1 + i , WHITE ) == false );
+			}				
+		
+		}
+	}	
+}
+
+TEST_CASE("2 : Black pawn moves test") {
+
+	Chess chess;
+
+	sf::Vector2i v;
+
+	for (int i = 0; i < 8; ++i){
+		
+		//Vertical moves
+		v.x = i;
+		v.y = 0;
+		REQUIRE( chess.is_move_legal( v , PAWN1 + i, BLACK ) == false );
+		v.y = 1;
+		REQUIRE( chess.is_move_legal( v , PAWN1 + i, BLACK ) == false );
+		v.y = 2;
+		REQUIRE( chess.is_move_legal( v , PAWN1 + i, BLACK ) == true );
+		v.y = 3;
+		REQUIRE( chess.is_move_legal( v , PAWN1 + i, BLACK ) == true );
+		v.y = 4;
+		REQUIRE( chess.is_move_legal( v , PAWN1 + i , BLACK ) == false );
+		v.y = 5;
+		REQUIRE( chess.is_move_legal( v , PAWN1 + i , BLACK ) == false );
+		v.y = 6;
+		REQUIRE( chess.is_move_legal( v , PAWN1 + i, BLACK ) == false );
+		v.y = 7;
+		REQUIRE( chess.is_move_legal( v , PAWN1 + i, BLACK ) == false );
+
+		//Cannot go diagonal if there is no opponent
+		if( i > 1 ){
+			v.x = i - 1; v.y = 2;
+			REQUIRE( chess.is_move_legal( v , PAWN1 + i , BLACK ) == false );
+		}
+		if( i < 7 ){
+			v.x = i + 1;
+			REQUIRE( chess.is_move_legal( v , PAWN1 + i , BLACK ) == false );	
+		}
+
+		for (int j = 5; j < 7; ++j){
+			
+			v.x = i; v.y = j;
+			chess.move( v , PAWN1 + i , BLACK );
+
+			//Check move function
+			REQUIRE( chess.get_piece( PAWN1 + i , BLACK ).get_x_square() == v.x );
+			REQUIRE( chess.get_piece( PAWN1 + i , BLACK ).get_y_square() == v.y );
+
+			//Eat opponent
+			if( i > 1 ){
+				v.x = i - 1; v.y = j + 1;
+				REQUIRE( chess.is_move_legal( v , PAWN1 + i , BLACK ) == true );
+			}
+			if( i < 7 ){
+				v.x = i + 1; v.y = j + 1;
+				REQUIRE( chess.is_move_legal( v , PAWN1 + i , BLACK ) == true );	
+			}
+			//Cannot go up as there is an opponent in front
+			v.x = i; v.y = j + 1;
+			REQUIRE( chess.is_move_legal( v , PAWN1 + i , BLACK ) == false );
+
+			//Cannot go down
+			v.x = i; v.y = j - 1;
+			REQUIRE( chess.is_move_legal( v , PAWN1 + i , BLACK ) == false );
+
+			//Cannot go left nor right
+			if( i < 7 ){
+				v.x = i + 1; v.y = j;
+				REQUIRE( chess.is_move_legal( v , PAWN1 + i , BLACK ) == false );
+			}
+			if( i > 1 ){
+				v.x = i - 1; v.y = j;
+				REQUIRE( chess.is_move_legal( v , PAWN1 + i , BLACK ) == false );
+			}				
+		
 		}
 	}	
 }
