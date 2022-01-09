@@ -118,6 +118,46 @@ int Chess :: get_piece_index_from_square( std::vector<Piece> &vec , sf::Vector2i
     return -1;            
 }
 
+bool Chess :: is_pawn_move_legal( size_t piece_x , size_t piece_y , size_t destination_x , size_t destination_y , bool piece_color ){
+
+    if( piece_color ){
+
+        if( abs( piece_x - destination_x ) == 1 && destination_y == (piece_y - 1) && squares_taken[destination_x][destination_y] == 0 ){
+            return true; //eat
+        }
+        else if( piece_x == destination_x ){
+            if( squares_taken[destination_x][destination_y] == -1 ){
+                if( piece_y == 6 ){
+                    if( destination_y == 5 || (destination_y == 4 && squares_taken[destination_x][5] == -1) ){
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
+                }
+                else{
+                    if( piece_y - destination_y == 1 ){
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
+                }    
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
+    else{
+        //blacks, to do
+    }
+    return false; //Avoid warning
+}
+
 bool Chess :: is_rook_move_legal( size_t piece_x , size_t piece_y , size_t destination_x , size_t destination_y ){
 
     if( piece_x == destination_x){
@@ -193,41 +233,7 @@ bool Chess :: is_move_legal( sf::Vector2i &square_clicked , int piece , bool pie
     }
     else{ //pawn
 
-        if( piece_color ){
-
-            if( abs( piece_x - destination_x ) == 1 && destination_y == (piece_y - 1) && squares_taken[destination_x][destination_y] == 0 ){
-                return true; //eat
-            }
-            else if( piece_x == destination_x ){
-                if( squares_taken[destination_x][destination_y] == -1 ){
-                    if( piece_y == 6 ){
-                        if( destination_y == 5 || (destination_y == 4 && squares_taken[destination_x][5] == -1) ){
-                            return true;
-                        }
-                        else{
-                            return false;
-                        }
-                    }
-                    else{
-                        if( piece_y - destination_y == 1 ){
-                            return true;
-                        }
-                        else{
-                            return false;
-                        }
-                    }    
-                }
-                else{
-                    return false;
-                }
-            }
-            else{
-                return false;
-            }
-        }
-        else{
-            //blacks, to do
-        }
+        return is_pawn_move_legal( piece_x , piece_y , destination_x , destination_y , piece_color );
     }
     return true;
 }

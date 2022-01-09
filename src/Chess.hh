@@ -50,6 +50,7 @@ class Chess{
 		bool is_move_legal( sf::Vector2i &square_clicked , int piece , bool color );
 		int get_piece_index_from_square( std::vector<Piece> &vec , sf::Vector2i &square_clicked );
 		bool is_rook_move_legal( size_t piece_x , size_t piece_y , size_t destination_x , size_t destination_y );
+		bool is_pawn_move_legal( size_t piece_x , size_t piece_y , size_t destination_x , size_t destination_y , bool piece_color );
 
 		int is_square_taken( size_t i , size_t j ){ return squares_taken[i][j]; }
 		
