@@ -187,6 +187,11 @@ bool Chess :: is_pawn_move_legal( size_t piece_x , size_t piece_y , size_t desti
     return false; //Avoid warning
 }
 
+bool Chess :: is_knight_move_legal( size_t piece_x , size_t piece_y , size_t destination_x , size_t destination_y ){
+
+    return ( (abs(piece_x - destination_x) == 2 && abs(piece_y - destination_y) == 1) || (abs(piece_x - destination_x) == 1 && abs(piece_y - destination_y) == 2) );
+}
+
 bool Chess :: is_rook_move_legal( size_t piece_x , size_t piece_y , size_t destination_x , size_t destination_y ){
 
     if( piece_x == destination_x){
@@ -285,6 +290,8 @@ bool Chess :: is_move_legal( sf::Vector2i &square_clicked , int piece , bool pie
         return  is_rook_move_legal( piece_x , piece_y , destination_x , destination_y );
     }
     else if( piece == KNIGHT_LEFT || piece == KNIGHT_RIGHT ){
+
+        return is_knight_move_legal( piece_x , piece_y , destination_x , destination_y );
 
     }
     else if( piece == BISHOP_LEFT || piece == BISHOP_RIGHT ) {

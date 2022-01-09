@@ -930,9 +930,9 @@ TEST_CASE("15 : Black left knight moves test") {
 	REQUIRE( chess.is_move_legal( v , KNIGHT_LEFT , BLACK ) == false ); //ally piece
 	v.x = 5; v.y = 1;
 	REQUIRE( chess.is_move_legal( v , KNIGHT_LEFT , BLACK ) == false ); //ally piece
-	v.x = 6; v.y = 2;
+	v.x = 5; v.y = 2;
 	REQUIRE( chess.is_move_legal( v , KNIGHT_LEFT , BLACK ) == true );
-	v.x = 6; v.y = 4;
+	v.x = 5; v.y = 4;
 	REQUIRE( chess.is_move_legal( v , KNIGHT_LEFT , BLACK ) == true );
 	v.x = 4; v.y = 5;
 	REQUIRE( chess.is_move_legal( v , KNIGHT_LEFT , BLACK ) == true );
@@ -994,9 +994,9 @@ TEST_CASE("16 : Black right knight moves test") {
 	REQUIRE( chess.is_move_legal( v , KNIGHT_RIGHT , BLACK ) == false ); //ally piece
 	v.x = 5; v.y = 1;
 	REQUIRE( chess.is_move_legal( v , KNIGHT_RIGHT , BLACK ) == false ); //ally piece
-	v.x = 6; v.y = 2;
+	v.x = 5; v.y = 2;
 	REQUIRE( chess.is_move_legal( v , KNIGHT_RIGHT , BLACK ) == true );
-	v.x = 6; v.y = 4;
+	v.x = 5; v.y = 4;
 	REQUIRE( chess.is_move_legal( v , KNIGHT_RIGHT , BLACK ) == true );
 	v.x = 4; v.y = 5;
 	REQUIRE( chess.is_move_legal( v , KNIGHT_RIGHT , BLACK ) == true );

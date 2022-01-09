@@ -52,6 +52,7 @@ class Chess{
 		bool is_rook_move_legal( size_t piece_x , size_t piece_y , size_t destination_x , size_t destination_y );
 		bool is_pawn_move_legal( size_t piece_x , size_t piece_y , size_t destination_x , size_t destination_y , bool piece_color );
 		bool is_bishop_move_legal( size_t piece_x , size_t piece_y , size_t destination_x , size_t destination_y );
+		bool is_knight_move_legal( size_t piece_x , size_t piece_y , size_t destination_x , size_t destination_y );
 
 		int is_square_taken( size_t i , size_t j ){ return squares_taken[i][j]; }
 		
