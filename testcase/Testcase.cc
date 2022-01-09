@@ -303,7 +303,7 @@ TEST_CASE("5 : White left rook moves test") {
 	REQUIRE( chess.get_piece( ROOK_LEFT , WHITE ).get_x_square() == v.x );
 	REQUIRE( chess.get_piece( ROOK_LEFT , WHITE ).get_y_square() == v.y );
 
-	//Left Rook can move one square but not in diagonal
+	//Rook can move one square but not in diagonal
 	v.x = 5; v.y = 4;
 	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , WHITE ) == true );
 	v.x = 5; v.y = 5;
@@ -321,7 +321,7 @@ TEST_CASE("5 : White left rook moves test") {
 	v.x = 4; v.y = 5;
 	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , WHITE ) == true );
 
-	//Left Rook can move more than one square on a colum or a row
+	//Rook can move more than one square on a colum or a row
 	v.x = 0; v.y = 4;
 	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , WHITE ) == true );
 	v.x = 7; v.y = 4;
@@ -368,7 +368,7 @@ TEST_CASE("6 : White right rook moves test") {
 	REQUIRE( chess.get_piece( ROOK_RIGHT , WHITE ).get_x_square() == v.x );
 	REQUIRE( chess.get_piece( ROOK_RIGHT , WHITE ).get_y_square() == v.y );
 
-	//Left Rook can move one square but not in diagonal
+	//Rook can move one square but not in diagonal
 	v.x = 5; v.y = 4;
 	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , WHITE ) == true );
 	v.x = 5; v.y = 5;
@@ -386,7 +386,7 @@ TEST_CASE("6 : White right rook moves test") {
 	v.x = 4; v.y = 5;
 	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , WHITE ) == true );
 
-	//Left Rook can move more than one square on a colum or a row
+	//Rook can move more than one square on a colum or a row
 	v.x = 0; v.y = 4;
 	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , WHITE ) == true );
 	v.x = 7; v.y = 4;
@@ -433,7 +433,7 @@ TEST_CASE("7 : Black left rook moves test") {
 	REQUIRE( chess.get_piece( ROOK_LEFT , BLACK ).get_x_square() == v.x );
 	REQUIRE( chess.get_piece( ROOK_LEFT , BLACK ).get_y_square() == v.y );
 
-	//Left Rook can move one square but not in diagonal
+	//Rook can move one square but not in diagonal
 	v.x = 5; v.y = 4;
 	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == true );
 	v.x = 5; v.y = 5;
@@ -451,7 +451,7 @@ TEST_CASE("7 : Black left rook moves test") {
 	v.x = 4; v.y = 5;
 	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == true );
 
-	//Left Rook can move more than one square on a colum or a row
+	//Rook can move more than one square on a colum or a row
 	v.x = 0; v.y = 4;
 	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == true );
 	v.x = 7; v.y = 4;
@@ -498,7 +498,7 @@ TEST_CASE("8 : Black right rook moves test") {
 	REQUIRE( chess.get_piece( ROOK_RIGHT , BLACK ).get_x_square() == v.x );
 	REQUIRE( chess.get_piece( ROOK_RIGHT , BLACK ).get_y_square() == v.y );
 
-	//Left Rook can move one square but not in diagonal
+	//Rook can move one square but not in diagonal
 	v.x = 5; v.y = 4;
 	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == true );
 	v.x = 5; v.y = 5;
@@ -516,7 +516,7 @@ TEST_CASE("8 : Black right rook moves test") {
 	v.x = 4; v.y = 5;
 	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == true );
 
-	//Left Rook can move more than one square on a colum or a row
+	//Rook can move more than one square on a colum or a row
 	v.x = 0; v.y = 4;
 	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == true );
 	v.x = 7; v.y = 4;
@@ -535,4 +535,240 @@ TEST_CASE("8 : Black right rook moves test") {
 	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == false ); //pawn between rook and queen
 	v.x = 4; v.y = 6;
 	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == true ); //can eat pawn
+}
+
+TEST_CASE("9 : White left bishop moves test") {
+
+	Chess chess;
+	sf::Vector2i v;
+
+	//Beginning of the game, the left rook cannot move
+	for (int i = 0; i < 8; ++i){
+		for (int j = 0; j < 8; ++j){
+			v.x = i; v.y = j;
+			REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == false );
+		}
+	}
+
+	//Check move function
+	v.x = 3; v.y = 4;
+	chess.move( v , BISHOP_LEFT , WHITE );
+	REQUIRE( chess.get_piece( BISHOP_LEFT , WHITE ).get_x_square() == v.x );
+	REQUIRE( chess.get_piece( BISHOP_LEFT , WHITE ).get_y_square() == v.y );
+
+	//Bishop can move in diagonal
+	v.x = 2; v.y = 3;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == true );
+	v.x = 1; v.y = 2;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == true );
+	v.x = 0; v.y = 1;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == true ); //eat pawn
+	v.x = 4; v.y = 3;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == true );
+	v.x = 5; v.y = 2;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == true );
+	v.x = 6; v.y = 1;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == true );
+	v.x = 7; v.y = 0;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == false ); //pawn between bishop and rook
+	v.x = 2; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == true );
+	v.x = 1; v.y = 6;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == false ); //ally piece
+	v.x = 0; v.y = 7;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == false ); //ally piece
+	v.x = 4; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == true );
+	v.x = 5; v.y = 6;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == false ); //ally piece
+	v.x = 6; v.y = 7;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == false ); //ally piece
+
+
+	//Bishop cannot move in a row or a column
+	for (int i = 0; i < 8; ++i){
+		v.x = i; v.y = 4;
+		REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == false );
+	}
+	for (int j = 0; j < 8; ++j){
+		v.x = 4; v.y = j;
+		REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == false );
+	}	
+}	
+
+TEST_CASE("10 : White right bishop moves test") {
+
+	Chess chess;
+	sf::Vector2i v;
+
+	//Beginning of the game, the left rook cannot move
+	for (int i = 0; i < 8; ++i){
+		for (int j = 0; j < 8; ++j){
+			v.x = i; v.y = j;
+			REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , WHITE ) == false );
+		}
+	}
+
+	//Check move function
+	v.x = 4; v.y = 4;
+	chess.move( v , BISHOP_RIGHT , WHITE );
+	REQUIRE( chess.get_piece( BISHOP_RIGHT , WHITE ).get_x_square() == v.x );
+	REQUIRE( chess.get_piece( BISHOP_RIGHT , WHITE ).get_y_square() == v.y );
+
+	//Bishop can move in diagonal
+	v.x = 3; v.y = 3;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , WHITE ) == true );
+	v.x = 2; v.y = 2;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , WHITE ) == true );
+	v.x = 1; v.y = 1;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , WHITE ) == true ); //eat pawn
+	v.x = 0; v.y = 0;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , WHITE ) == false ); //pawn between bishop and rook
+	v.x = 5; v.y = 3;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , WHITE ) == true );
+	v.x = 6; v.y = 2;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , WHITE ) == true );
+	v.x = 7; v.y = 1;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , WHITE ) == true );
+	v.x = 3; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , WHITE ) == true );
+	v.x = 2; v.y = 6;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , WHITE ) == false ); //ally piece
+	v.x = 1; v.y = 7;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , WHITE ) == false ); //ally piece
+	v.x = 5; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , WHITE ) == true );
+	v.x = 6; v.y = 6;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , WHITE ) == false ); //ally piece
+	v.x = 7; v.y = 7;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , WHITE ) == false ); //ally piece
+
+
+	//Bishop cannot move in a row or a column
+	for (int i = 0; i < 8; ++i){
+		v.x = i; v.y = 4;
+		REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , WHITE ) == false );
+	}
+	for (int j = 0; j < 8; ++j){
+		v.x = 4; v.y = j;
+		REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , WHITE ) == false );
+	}	
+}
+
+TEST_CASE("11 : Black left bishop moves test") {
+
+	Chess chess;
+	sf::Vector2i v;
+
+	//Beginning of the game, the left rook cannot move
+	for (int i = 0; i < 8; ++i){
+		for (int j = 0; j < 8; ++j){
+			v.x = i; v.y = j;
+			REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == false );
+		}
+	}
+
+	//Check move function
+	v.x = 3; v.y = 4;
+	chess.move( v , BISHOP_LEFT , BLACK );
+	REQUIRE( chess.get_piece( BISHOP_LEFT , BLACK ).get_x_square() == v.x );
+	REQUIRE( chess.get_piece( BISHOP_LEFT , BLACK ).get_y_square() == v.y );
+
+	//Bishop can move in diagonal
+	v.x = 2; v.y = 3;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == true );
+	v.x = 1; v.y = 2;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == true );
+	v.x = 0; v.y = 1;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == true ); //eat pawn
+	v.x = 4; v.y = 3;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == true );
+	v.x = 5; v.y = 2;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == true );
+	v.x = 6; v.y = 1;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == true );
+	v.x = 7; v.y = 0;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == false ); //pawn between bishop and rook
+	v.x = 2; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == true );
+	v.x = 1; v.y = 6;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == false ); //ally piece
+	v.x = 0; v.y = 7;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == false ); //ally piece
+	v.x = 4; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == true );
+	v.x = 5; v.y = 6;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == false ); //ally piece
+	v.x = 6; v.y = 7;
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == false ); //ally piece
+
+
+	//Bishop cannot move in a row or a column
+	for (int i = 0; i < 8; ++i){
+		v.x = i; v.y = 4;
+		REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == false );
+	}
+	for (int j = 0; j < 8; ++j){
+		v.x = 4; v.y = j;
+		REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == false );
+	}	
+}	
+
+TEST_CASE("12 : Black right bishop moves test") {
+
+	Chess chess;
+	sf::Vector2i v;
+
+	//Beginning of the game, the left rook cannot move
+	for (int i = 0; i < 8; ++i){
+		for (int j = 0; j < 8; ++j){
+			v.x = i; v.y = j;
+			REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == false );
+		}
+	}
+
+	//Check move function
+	v.x = 4; v.y = 4;
+	chess.move( v , BISHOP_RIGHT , BLACK );
+	REQUIRE( chess.get_piece( BISHOP_RIGHT , BLACK ).get_x_square() == v.x );
+	REQUIRE( chess.get_piece( BISHOP_RIGHT , BLACK ).get_y_square() == v.y );
+
+	//Bishop can move in diagonal
+	v.x = 3; v.y = 3;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == true );
+	v.x = 2; v.y = 2;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == true );
+	v.x = 1; v.y = 1;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == true ); //eat pawn
+	v.x = 0; v.y = 0;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == false ); //pawn between bishop and rook
+	v.x = 5; v.y = 3;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == true );
+	v.x = 6; v.y = 2;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == true );
+	v.x = 7; v.y = 1;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == true );
+	v.x = 3; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == true );
+	v.x = 2; v.y = 6;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == false ); //ally piece
+	v.x = 1; v.y = 7;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == false ); //ally piece
+	v.x = 5; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == true );
+	v.x = 6; v.y = 6;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == false ); //ally piece
+	v.x = 7; v.y = 7;
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == false ); //ally piece
+
+
+	//Bishop cannot move in a row or a column
+	for (int i = 0; i < 8; ++i){
+		v.x = i; v.y = 4;
+		REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == false );
+	}
+	for (int j = 0; j < 8; ++j){
+		v.x = 4; v.y = j;
+		REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == false );
+	}	
 }
