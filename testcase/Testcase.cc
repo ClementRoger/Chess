@@ -173,7 +173,7 @@ TEST_CASE("2 : Black pawn moves test") {
 	}	
 }
 
-TEST_CASE("2 : King moves test") {
+TEST_CASE("3 : White king moves test") {
 
 	Chess chess;
 	sf::Vector2i v;
@@ -223,9 +223,61 @@ TEST_CASE("2 : King moves test") {
 	REQUIRE( chess.is_move_legal( v , KING , WHITE ) == false );	
 	v.x = 0; v.y = 0;
 	REQUIRE( chess.is_move_legal( v , KING , WHITE ) == false );
+}
+
+TEST_CASE("4 : Black king moves test") {
+
+	Chess chess;
+	sf::Vector2i v;
+
+	//Beginning of the game, the king cannot move
+	v.x = KING_STARTING_SQUARE - 1; v.y = 0;
+	REQUIRE( chess.is_move_legal( v , KING , BLACK ) == false );
+	v.x = KING_STARTING_SQUARE + 1;
+	REQUIRE( chess.is_move_legal( v , KING , BLACK ) == false );
+	v.x = KING_STARTING_SQUARE - 1; v.y = 1;
+	REQUIRE( chess.is_move_legal( v , KING , BLACK ) == false );
+	v.x = KING_STARTING_SQUARE; v.y = 1;
+	REQUIRE( chess.is_move_legal( v , KING , BLACK ) == false );
+	v.x = KING_STARTING_SQUARE + 1; v.y = 1;
+	REQUIRE( chess.is_move_legal( v , KING , BLACK ) == false );
+
+	v.x = 4; v.y = 4;
+	chess.move( v , KING , BLACK );
+	//Check move function
+	REQUIRE( chess.get_piece( KING , BLACK ).get_x_square() == v.x );
+	REQUIRE( chess.get_piece( KING , BLACK ).get_y_square() == v.y );
+
+	//King in the middle of the chessboard, can move everywhere
+	v.x = 5; v.y = 4;
+	REQUIRE( chess.is_move_legal( v , KING , BLACK ) == true );
+	v.x = 5; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , KING , BLACK ) == true );
+	v.x = 5; v.y = 3;
+	REQUIRE( chess.is_move_legal( v , KING , BLACK ) == true );
+	v.x = 4; v.y = 3;
+	REQUIRE( chess.is_move_legal( v , KING , BLACK ) == true );
+	v.x = 3; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , KING , BLACK ) == true );
+	v.x = 3; v.y = 3;
+	REQUIRE( chess.is_move_legal( v , KING , BLACK ) == true );
+	v.x = 3; v.y = 4;
+	REQUIRE( chess.is_move_legal( v , KING , BLACK ) == true );
+	v.x = 4; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , KING , BLACK ) == true );
+
+	//Cannot move more than one square
+	v.x = 2; v.y = 4;
+	REQUIRE( chess.is_move_legal( v , KING , BLACK ) == false );
+	v.x = 4; v.y = 6;
+	REQUIRE( chess.is_move_legal( v , KING , BLACK ) == false );
+	v.x = 7; v.y = 7;
+	REQUIRE( chess.is_move_legal( v , KING , BLACK ) == false );	
+	v.x = 0; v.y = 0;
+	REQUIRE( chess.is_move_legal( v , KING , BLACK ) == false );
 }	
 
-TEST_CASE("3 : Left rook moves test") {
+TEST_CASE("5 : White left rook moves test") {
 
 	Chess chess;
 	sf::Vector2i v;
@@ -290,7 +342,7 @@ TEST_CASE("3 : Left rook moves test") {
 	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , WHITE ) == true ); //can eat pawn
 }	
 
-TEST_CASE("4 : Right rook moves test") {
+TEST_CASE("6 : White right rook moves test") {
 
 	Chess chess;
 	sf::Vector2i v;
