@@ -568,7 +568,7 @@ TEST_CASE("9 : White left bishop moves test") {
 	v.x = 5; v.y = 2;
 	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == true );
 	v.x = 6; v.y = 1;
-	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == true );
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == true ); //eat pawn
 	v.x = 7; v.y = 0;
 	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == false ); //pawn between bishop and rook
 	v.x = 2; v.y = 5;
@@ -591,7 +591,7 @@ TEST_CASE("9 : White left bishop moves test") {
 		REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == false );
 	}
 	for (int j = 0; j < 8; ++j){
-		v.x = 4; v.y = j;
+		v.x = 3; v.y = j;
 		REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , WHITE ) == false );
 	}	
 }	
@@ -629,7 +629,7 @@ TEST_CASE("10 : White right bishop moves test") {
 	v.x = 6; v.y = 2;
 	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , WHITE ) == true );
 	v.x = 7; v.y = 1;
-	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , WHITE ) == true );
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , WHITE ) == true ); //eat pawn
 	v.x = 3; v.y = 5;
 	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , WHITE ) == true );
 	v.x = 2; v.y = 6;
@@ -680,27 +680,27 @@ TEST_CASE("11 : Black left bishop moves test") {
 	v.x = 1; v.y = 2;
 	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == true );
 	v.x = 0; v.y = 1;
-	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == true ); //eat pawn
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == false ); //ally piece
 	v.x = 4; v.y = 3;
 	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == true );
 	v.x = 5; v.y = 2;
 	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == true );
 	v.x = 6; v.y = 1;
-	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == true );
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == false ); //ally piece
 	v.x = 7; v.y = 0;
-	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == false ); //pawn between bishop and rook
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == false ); //ally piece
 	v.x = 2; v.y = 5;
 	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == true );
 	v.x = 1; v.y = 6;
-	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == false ); //ally piece
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == true ); //eat pawn
 	v.x = 0; v.y = 7;
-	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == false ); //ally piece
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == false ); //pawn between rook and bishop
 	v.x = 4; v.y = 5;
 	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == true );
 	v.x = 5; v.y = 6;
-	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == false ); //ally piece
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == true ); //eat pawn
 	v.x = 6; v.y = 7;
-	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == false ); //ally piece
+	REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == false ); //pawn between rook and bishop
 
 
 	//Bishop cannot move in a row or a column
@@ -709,7 +709,7 @@ TEST_CASE("11 : Black left bishop moves test") {
 		REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == false );
 	}
 	for (int j = 0; j < 8; ++j){
-		v.x = 4; v.y = j;
+		v.x = 3; v.y = j;
 		REQUIRE( chess.is_move_legal( v , BISHOP_LEFT , BLACK ) == false );
 	}	
 }	
@@ -739,27 +739,27 @@ TEST_CASE("12 : Black right bishop moves test") {
 	v.x = 2; v.y = 2;
 	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == true );
 	v.x = 1; v.y = 1;
-	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == true ); //eat pawn
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == false ); //ally piece
 	v.x = 0; v.y = 0;
-	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == false ); //pawn between bishop and rook
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == false ); //ally piece
 	v.x = 5; v.y = 3;
 	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == true );
 	v.x = 6; v.y = 2;
 	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == true );
 	v.x = 7; v.y = 1;
-	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == true );
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == false ); //ally piece
 	v.x = 3; v.y = 5;
 	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == true );
 	v.x = 2; v.y = 6;
-	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == false ); //ally piece
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == true ); //eat pawn
 	v.x = 1; v.y = 7;
-	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == false ); //ally piece
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == false ); //pawn between bishop and rook
 	v.x = 5; v.y = 5;
 	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == true );
 	v.x = 6; v.y = 6;
-	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == false ); //ally piece
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == true ); //eat pawn
 	v.x = 7; v.y = 7;
-	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == false ); //ally piece
+	REQUIRE( chess.is_move_legal( v , BISHOP_RIGHT , BLACK ) == false ); //pawn between bishop and rook
 
 
 	//Bishop cannot move in a row or a column

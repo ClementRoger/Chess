@@ -223,6 +223,32 @@ bool Chess :: is_rook_move_legal( size_t piece_x , size_t piece_y , size_t desti
     return false; //Avoid warning
 }
 
+bool Chess :: is_bishop_move_legal( size_t piece_x , size_t piece_y , size_t destination_x , size_t destination_y ){
+
+    if( abs( piece_x - destination_x ) != abs( piece_y - destination_y ) ){ //if movement isn't diagonal
+        return false;
+    }
+    else{
+        int mul_x = 1;
+        if( destination_x < piece_x ){
+            mul_x = -1;
+        }
+        int mul_y = 1;
+        if( destination_y < piece_y ){
+            mul_y = -1;
+        }
+
+        for (int j = 1; j < abs(destination_x - piece_x); ++j){
+            if( squares_taken[piece_x + mul_x * j][piece_y + mul_y * j] != -1 ){
+                //std :: cout << "Case (" << piece_x + mul_x * j << "," << piece_y + mul_y * j << ") non libre \n";
+                return false;
+            }        
+        }
+        return true;
+    }
+    return false;
+}
+
 bool Chess :: is_move_legal( sf::Vector2i &square_clicked , int piece , bool piece_color ){
 
     size_t destination_x = (size_t) square_clicked.x;
@@ -242,6 +268,10 @@ bool Chess :: is_move_legal( sf::Vector2i &square_clicked , int piece , bool pie
         piece_y = BlackPieces[piece].get_y_square();    
     }
 
+    if( piece_x == destination_x && piece_y == destination_y ){ //The piece cannot move where it is already
+        return false;
+    }
+
     if( piece == KING ){
         if( abs( destination_x - piece_x ) > 1 || abs( destination_y - piece_y ) > 1 ){
             return false;
@@ -258,7 +288,7 @@ bool Chess :: is_move_legal( sf::Vector2i &square_clicked , int piece , bool pie
 
     }
     else if( piece == BISHOP_LEFT || piece == BISHOP_RIGHT ) {
-
+        return is_bishop_move_legal( piece_x , piece_y , destination_x , destination_y );
     }
     else{ //pawn
 
