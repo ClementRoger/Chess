@@ -406,3 +406,133 @@ TEST_CASE("6 : White right rook moves test") {
 	v.x = 4; v.y = 1;
 	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , WHITE ) == true ); //can eat pawn
 }	
+
+TEST_CASE("7 : Black left rook moves test") {
+
+	Chess chess;
+	sf::Vector2i v;
+
+	//Beginning of the game, the left rook cannot move
+	for (int j = 1; j < 8; ++j){
+		v.x = ROOK_STARTING_SQUARE; v.y = j;
+		REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == false );
+	}
+	for (int i = 1; i < 8; ++i){
+		v.x = i; v.y = 0;
+		REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == false );	
+	}
+		
+	v.x = 4; v.y = 4;
+	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == false );
+	v.x = 6; v.y = 6;
+	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == false );
+
+	//Check move function
+	v.x = 4; v.y = 4;
+	chess.move( v , ROOK_LEFT , BLACK );
+	REQUIRE( chess.get_piece( ROOK_LEFT , BLACK ).get_x_square() == v.x );
+	REQUIRE( chess.get_piece( ROOK_LEFT , BLACK ).get_y_square() == v.y );
+
+	//Left Rook can move one square but not in diagonal
+	v.x = 5; v.y = 4;
+	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == true );
+	v.x = 5; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == false );
+	v.x = 5; v.y = 3;
+	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == false );
+	v.x = 4; v.y = 3;
+	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == true );
+	v.x = 3; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == false );
+	v.x = 3; v.y = 3;
+	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == false );
+	v.x = 3; v.y = 4;
+	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == true );
+	v.x = 4; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == true );
+
+	//Left Rook can move more than one square on a colum or a row
+	v.x = 0; v.y = 4;
+	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == true );
+	v.x = 7; v.y = 4;
+	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == true );
+	v.x = 4; v.y = 0;
+	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == false ); //illegal, there is an ally piece
+	v.x = 4; v.y = 7;
+	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == false ); //same as above
+	v.x = 7; v.y = 7;
+	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == false );
+	v.x = 6; v.y = 6;
+	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == false );
+	v.x = 3; v.y = 0;
+	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == false );
+	v.x = 4; v.y = 0;
+	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == false ); //pawn between rook and queen
+	v.x = 4; v.y = 6;
+	REQUIRE( chess.is_move_legal( v , ROOK_LEFT , BLACK ) == true ); //can eat pawn
+}	
+
+TEST_CASE("8 : Black right rook moves test") {
+
+	Chess chess;
+	sf::Vector2i v;
+
+	//Beginning of the game, the left rook cannot move
+	for (int j = 1; j < 8; ++j){
+		v.x = ROOK_STARTING_SQUARE + 7; v.y = j;
+		REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == false );
+	}
+	for (int i = 0; i < 7; ++i){
+		v.x = i; v.y = 0;
+		REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == false );	
+	}
+		
+	v.x = 4; v.y = 4;
+	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == false );
+	v.x = 6; v.y = 6;
+	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == false );
+
+	//Check move function
+	v.x = 4; v.y = 4;
+	chess.move( v , ROOK_RIGHT , BLACK );
+	REQUIRE( chess.get_piece( ROOK_RIGHT , BLACK ).get_x_square() == v.x );
+	REQUIRE( chess.get_piece( ROOK_RIGHT , BLACK ).get_y_square() == v.y );
+
+	//Left Rook can move one square but not in diagonal
+	v.x = 5; v.y = 4;
+	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == true );
+	v.x = 5; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == false );
+	v.x = 5; v.y = 3;
+	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == false );
+	v.x = 4; v.y = 3;
+	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == true );
+	v.x = 3; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == false );
+	v.x = 3; v.y = 3;
+	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == false );
+	v.x = 3; v.y = 4;
+	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == true );
+	v.x = 4; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == true );
+
+	//Left Rook can move more than one square on a colum or a row
+	v.x = 0; v.y = 4;
+	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == true );
+	v.x = 7; v.y = 4;
+	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == true );
+	v.x = 4; v.y = 0;
+	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == false ); //illegal, there is an ally piece
+	v.x = 4; v.y = 7;
+	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == false ); //same as above
+	v.x = 7; v.y = 7;
+	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == false );
+	v.x = 6; v.y = 6;
+	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == false );
+	v.x = 3; v.y = 0;
+	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == false );
+	v.x = 4; v.y = 0;
+	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == false ); //pawn between rook and queen
+	v.x = 4; v.y = 6;
+	REQUIRE( chess.is_move_legal( v , ROOK_RIGHT , BLACK ) == true ); //can eat pawn
+}
