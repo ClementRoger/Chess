@@ -778,7 +778,7 @@ TEST_CASE("13 : White left knight moves test") {
 	Chess chess;
 	sf::Vector2i v;
 
-	//Beginning of the game, the left knight only has two moves
+	//Beginning of the game, the knight only has two moves
 	for (int i = 0; i < 8; ++i){
 		for (int j = 0; j < 8; ++j){
 			v.x = i; v.y = j;
@@ -842,7 +842,7 @@ TEST_CASE("14 : White right knight moves test") {
 	Chess chess;
 	sf::Vector2i v;
 
-	//Beginning of the game, the left knight only has two moves
+	//Beginning of the game, the knight only has two moves
 	for (int i = 0; i < 8; ++i){
 		for (int j = 0; j < 8; ++j){
 			v.x = i; v.y = j;
@@ -906,7 +906,7 @@ TEST_CASE("15 : Black left knight moves test") {
 	Chess chess;
 	sf::Vector2i v;
 
-	//Beginning of the game, the left knight only has two moves
+	//Beginning of the game, the knight only has two moves
 	for (int i = 0; i < 8; ++i){
 		for (int j = 0; j < 8; ++j){
 			v.x = i; v.y = j;
@@ -970,7 +970,7 @@ TEST_CASE("16 : Black right knight moves test") {
 	Chess chess;
 	sf::Vector2i v;
 
-	//Beginning of the game, the left knight only has two moves
+	//Beginning of the game, the knight only has two moves
 	for (int i = 0; i < 8; ++i){
 		for (int j = 0; j < 8; ++j){
 			v.x = i; v.y = j;
@@ -1027,4 +1027,171 @@ TEST_CASE("16 : Black right knight moves test") {
 	REQUIRE( chess.is_move_legal( v , KNIGHT_RIGHT , BLACK ) == true ); //eat
 	v.x = 5; v.y = 6;
 	REQUIRE( chess.is_move_legal( v , KNIGHT_RIGHT , BLACK ) == true ); //eat		
+}
+
+TEST_CASE("17 : White queen moves test") {
+
+	Chess chess;
+	sf::Vector2i v;
+
+	//Beginning of the game, the queen doesn't have any move
+	for (int i = 0; i < 8; ++i){
+		for (int j = 0; j < 8; ++j){
+			v.x = i; v.y = j;
+			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false );	
+		}
+	}
+
+	//Check move function
+	v.x = 3; v.y = 3;
+	chess.move( v , QUEEN , WHITE );
+	REQUIRE( chess.get_piece( QUEEN , WHITE ).get_x_square() == v.x );
+	REQUIRE( chess.get_piece( QUEEN , WHITE ).get_y_square() == v.y );
+
+	//Queen can move in a row or a column
+	for (int i = 0; i < 8; ++i){
+		v.x = i; v.y = 3;
+		REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == true );
+	}
+	for (int j = 0; j < 8; ++j){
+		v.x = 3; v.y = j;
+		if( j == 7 || j == 6 ){	
+			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false ); //ally piece
+		}
+		else if( j == 0 ){
+			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false ); //pawn between the queen and the destination	
+		}
+		else{
+			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == true );	
+		}
+	}
+
+	//Queen can move in diagonal
+	for (int i = 0; i < 8; ++i){
+		v.x = i; v.y = i;
+
+		if( i == 0 ){ //pawn between the queen and the destination
+			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false );	
+		}
+		else if( i == 6 || i == 7 ){ //ally piece
+			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false );
+		}
+		else{
+			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == true );
+		}
+	}
+
+	for (int i = 0; i < 7; ++i){
+		v.x = i; v.y = 6 - i;
+
+		if( i == 6 ){ //pawn between the queen and the destination
+			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false );	
+		}
+		else if( i == 0 ){ //ally piece
+			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false );
+		}
+		else{
+			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == true );
+		}
+	}
+
+	//Queen cannot move as a knight
+	v.x = 2; v.y = 1;
+	REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false );
+	v.x = 5; v.y = 1;
+	REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false );
+	v.x = 5; v.y = 2;
+	REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false );
+	v.x = 5; v.y = 4;
+	REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false );
+	v.x = 4; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false );
+	v.x = 2; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false ); 
+	v.x = 1; v.y = 4;
+	REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false );
+	v.x = 1; v.y = 2;
+	REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false );
+}
+
+TEST_CASE("18 : Black queen moves test") {
+
+	Chess chess;
+	sf::Vector2i v;
+
+	//Beginning of the game, the queen doesn't have any move
+	for (int i = 0; i < 8; ++i){
+		for (int j = 0; j < 8; ++j){
+			v.x = i; v.y = j;
+			REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == false );	
+		}
+	}
+
+	//Check move function
+	v.x = 3; v.y = 3;
+	chess.move( v , QUEEN , BLACK );
+	REQUIRE( chess.get_piece( QUEEN , BLACK ).get_x_square() == v.x );
+	REQUIRE( chess.get_piece( QUEEN , BLACK ).get_y_square() == v.y );
+
+	//Queen can move in a row or a column
+	for (int i = 0; i < 8; ++i){
+		v.x = i; v.y = 3;
+		REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == true );
+	}
+	for (int j = 0; j < 8; ++j){
+		v.x = 3; v.y = j;
+		if( j == 1 || j == 0 ){	
+			REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == false ); //ally piece
+		}
+		else if( j == 7 ){
+			REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == false ); //pawn between the queen and the destination	
+		}
+		else{
+			REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == true );	
+		}
+	}
+
+	//Queen can move in diagonal
+	for (int i = 0; i < 8; ++i){
+		v.x = i; v.y = i;
+
+		if( i == 7 ){ //pawn between the queen and the destination
+			REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == false );	
+		}
+		else if( i == 0 || i == 1 ){ //ally piece
+			REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == false );
+		}
+		else{
+			REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == true );
+		}
+	}
+
+	for (int i = 0; i < 7; ++i){
+		v.x = i; v.y = 6 - i;
+
+		if( i == 6 || i == 5 ){ //ally piece
+			REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == false );
+		}
+		else{
+			REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == true );
+		}
+	}
+
+	//Queen cannot move as a knight
+	v.x = 2; v.y = 1;
+	REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == false );
+	v.x = 5; v.y = 1;
+	REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == false );
+	v.x = 5; v.y = 2;
+	REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == false );
+	v.x = 5; v.y = 4;
+	REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == false );
+	v.x = 4; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == false );
+	v.x = 2; v.y = 5;
+	REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == false ); 
+	v.x = 1; v.y = 4;
+	REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == false );
+	v.x = 1; v.y = 2;
+	REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == false );
 }
