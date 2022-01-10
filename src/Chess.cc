@@ -245,7 +245,6 @@ bool Chess :: is_bishop_move_legal( size_t piece_x , size_t piece_y , size_t des
 
         for (int j = 1; j < abs(destination_x - piece_x); ++j){
             if( squares_taken[piece_x + mul_x * j][piece_y + mul_y * j] != -1 ){
-                //std :: cout << "Case (" << piece_x + mul_x * j << "," << piece_y + mul_y * j << ") non libre \n";
                 return false;
             }        
         }
@@ -304,6 +303,24 @@ bool Chess :: is_move_legal( sf::Vector2i &square_clicked , int piece , bool pie
     return true;
 }
 
+void Chess :: eat_piece( int x , int y , bool piece_color ){
+
+    if( piece_color ){
+        for (int i = 0; i < 2 * CHESSBOARD_SIZE_X; ++i){
+            if( (int) WhitePieces[i].get_x_square() == x && (int) WhitePieces[i].get_y_square() == y ){ 
+                WhitePieces[i].kill();
+            }
+        }           
+    }
+    else{
+        for (int i = 0; i < 2 * CHESSBOARD_SIZE_X; ++i){
+            if( (int) BlackPieces[i].get_x_square() == x && (int) BlackPieces[i].get_y_square() == y ){ 
+                BlackPieces[i].kill();
+            }
+        }
+    }
+}
+
 void Chess :: run(){
 
 	sf::RenderWindow window(sf::VideoMode(X_WINDOW, Y_WINDOW), "Chess");
@@ -352,11 +369,19 @@ void Chess :: run(){
                                 x = (int) WhitePieces[piece].get_x_square();
                                 y = (int) WhitePieces[piece].get_y_square();
                                 WhitePieces[piece].move(square_clicked);
+                                
+                                if( squares_taken[square_clicked.x][square_clicked.y] == 0 ){
+                                    eat_piece( square_clicked.x , square_clicked.y , BLACK );
+                                }
                             }
                             else{
                                 x = (int) BlackPieces[piece].get_x_square();
                                 y = (int) BlackPieces[piece].get_y_square();                            
-                                BlackPieces[piece].move(square_clicked);          
+                                BlackPieces[piece].move(square_clicked);
+
+                                if( squares_taken[square_clicked.x][square_clicked.y] == 1 ){
+                                    eat_piece( square_clicked.x , square_clicked.y , WHITE );
+                                }          
                             }
                             squares_taken[square_clicked.x][square_clicked.y] = player_color;
                             squares_taken[x][y] = -1;
@@ -371,10 +396,14 @@ void Chess :: run(){
 		display_coordinates(window , grid);
         
         for( Piece p : BlackPieces ){
-            p.display(window , grid);
+            if( p.get_is_alive() ){
+                p.display(window , grid);
+            }
         }
         for( Piece p : WhitePieces ){
-            p.display(window , grid);
+            if( p.get_is_alive() ){
+                p.display(window , grid);
+            }
         }    
 		
         window.display();

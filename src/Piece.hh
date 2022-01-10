@@ -20,6 +20,8 @@ class Piece{
 		size_t get_x_square(){ return square_x; }
 		size_t get_y_square(){ return square_y; }
 		bool get_color(){ return color; }
+		bool get_is_alive(){ return is_alive; }
+		void kill(){ is_alive = false; }
 
 	private:	
 
