@@ -282,8 +282,8 @@ bool Chess :: is_move_legal( sf::Vector2i &square_clicked , int piece , bool pie
             return false;
         }
     }
-    else if( piece == QUEEN ){
-
+    else if( piece == QUEEN ){ //queen = bishop + rook
+        return is_rook_move_legal( piece_x , piece_y , destination_x , destination_y ) || is_bishop_move_legal( piece_x , piece_y , destination_x , destination_y );
     }
     else if( piece == ROOK_LEFT || piece == ROOK_RIGHT ){
         
