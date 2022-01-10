@@ -928,7 +928,7 @@ TEST_CASE("15 : Black left knight moves test") {
 	//Knight can move in L
 	v.x = 2; v.y = 1;
 	REQUIRE( chess.is_move_legal( v , KNIGHT_LEFT , BLACK ) == false ); //ally piece
-	v.x = 5; v.y = 1;
+	v.x = 4; v.y = 1;
 	REQUIRE( chess.is_move_legal( v , KNIGHT_LEFT , BLACK ) == false ); //ally piece
 	v.x = 5; v.y = 2;
 	REQUIRE( chess.is_move_legal( v , KNIGHT_LEFT , BLACK ) == true );
@@ -1051,7 +1051,12 @@ TEST_CASE("17 : White queen moves test") {
 	//Queen can move in a row or a column
 	for (int i = 0; i < 8; ++i){
 		v.x = i; v.y = 3;
-		REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == true );
+		if( i != 3 ){
+			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == true );
+		}
+		else{
+			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false ); //square where it already is	
+		}
 	}
 	for (int j = 0; j < 8; ++j){
 		v.x = 3; v.y = j;
@@ -1060,6 +1065,9 @@ TEST_CASE("17 : White queen moves test") {
 		}
 		else if( j == 0 ){
 			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false ); //pawn between the queen and the destination	
+		}
+		else if( j == 3 ){
+			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false ); //square where it already is
 		}
 		else{
 			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == true );	
@@ -1076,6 +1084,9 @@ TEST_CASE("17 : White queen moves test") {
 		else if( i == 6 || i == 7 ){ //ally piece
 			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false );
 		}
+		else if( i == 3 ){
+			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false ); //square where it already is
+		}
 		else{
 			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == true );
 		}
@@ -1090,6 +1101,9 @@ TEST_CASE("17 : White queen moves test") {
 		else if( i == 0 ){ //ally piece
 			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false );
 		}
+		else if( i == 3 ){
+			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false ); //square where it already is
+		}
 		else{
 			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == true );
 		}
@@ -1098,7 +1112,7 @@ TEST_CASE("17 : White queen moves test") {
 	//Queen cannot move as a knight
 	v.x = 2; v.y = 1;
 	REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false );
-	v.x = 5; v.y = 1;
+	v.x = 4; v.y = 1;
 	REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false );
 	v.x = 5; v.y = 2;
 	REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false );
@@ -1136,7 +1150,12 @@ TEST_CASE("18 : Black queen moves test") {
 	//Queen can move in a row or a column
 	for (int i = 0; i < 8; ++i){
 		v.x = i; v.y = 3;
-		REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == true );
+		if( i != 3 ){
+			REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == true );
+		}
+		else{
+			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false ); //square where it already is
+		}
 	}
 	for (int j = 0; j < 8; ++j){
 		v.x = 3; v.y = j;
@@ -1145,6 +1164,9 @@ TEST_CASE("18 : Black queen moves test") {
 		}
 		else if( j == 7 ){
 			REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == false ); //pawn between the queen and the destination	
+		}
+		else if( j == 3 ){
+			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false ); //square where it already is
 		}
 		else{
 			REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == true );	
@@ -1161,6 +1183,9 @@ TEST_CASE("18 : Black queen moves test") {
 		else if( i == 0 || i == 1 ){ //ally piece
 			REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == false );
 		}
+		else if( i == 3 ){
+			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false ); //square where it already is
+		}
 		else{
 			REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == true );
 		}
@@ -1172,6 +1197,9 @@ TEST_CASE("18 : Black queen moves test") {
 		if( i == 6 || i == 5 ){ //ally piece
 			REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == false );
 		}
+		else if( i == 3 ){
+			REQUIRE( chess.is_move_legal( v , QUEEN , WHITE ) == false ); //square where it already is
+		}
 		else{
 			REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == true );
 		}
@@ -1180,7 +1208,7 @@ TEST_CASE("18 : Black queen moves test") {
 	//Queen cannot move as a knight
 	v.x = 2; v.y = 1;
 	REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == false );
-	v.x = 5; v.y = 1;
+	v.x = 4; v.y = 1;
 	REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == false );
 	v.x = 5; v.y = 2;
 	REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == false );
