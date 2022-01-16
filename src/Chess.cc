@@ -21,6 +21,8 @@ Chess :: Chess(){
     win = false;
     difficulty = false;
     player_color = WHITE;
+    x_en_passant = -1;
+    nb_moves = 0;
 
     create_pieces( BlackPieces , BLACK );
     create_pieces( WhitePieces , WHITE );
@@ -125,10 +127,19 @@ bool Chess :: is_pawn_move_legal( size_t piece_x , size_t piece_y , size_t desti
         if( abs( piece_x - destination_x ) == 1 && destination_y == (piece_y - 1) && squares_taken[destination_x][destination_y] == 0 ){
             return true; //eat
         }
+        else if( (int) destination_x == x_en_passant && abs(destination_x - piece_x) == 1 && destination_y == piece_y - 1 && nb_move_en_passant + 1 == nb_moves ){
+            eat_piece( destination_x , piece_y , BLACK );
+            x_en_passant = -1;
+            return true;
+        }
         else if( piece_x == destination_x ){
             if( squares_taken[destination_x][destination_y] == -1 ){
                 if( piece_y == 6 ){
                     if( destination_y == 5 || (destination_y == 4 && squares_taken[destination_x][5] == -1) ){
+                        if( destination_y == 4 ){
+                            x_en_passant = destination_x;
+                            nb_move_en_passant = nb_moves;
+                        }
                         return true;
                     }
                     else{
@@ -157,10 +168,19 @@ bool Chess :: is_pawn_move_legal( size_t piece_x , size_t piece_y , size_t desti
         if( abs( piece_x - destination_x ) == 1 && destination_y == (piece_y + 1) && squares_taken[destination_x][destination_y] == 1 ){
             return true; //eat
         }
+        else if( (int) destination_x == x_en_passant && abs(destination_x - piece_x) == 1 && destination_y == piece_y + 1 && nb_move_en_passant + 1 == nb_moves ){
+            eat_piece( destination_x , piece_y , WHITE );
+            x_en_passant = -1;
+            return true;
+        }
         else if( piece_x == destination_x ){
             if( squares_taken[destination_x][destination_y] == -1 ){
                 if( piece_y == 1 ){
                     if( destination_y == 2 || (destination_y == 3 && squares_taken[destination_x][2] == -1) ){
+                        if( destination_y == 3 ){
+                            x_en_passant = destination_x;
+                            nb_move_en_passant = nb_moves;
+                        }
                         return true;
                     }
                     else{
@@ -385,6 +405,8 @@ void Chess :: run(){
                             }
                             squares_taken[square_clicked.x][square_clicked.y] = player_color;
                             squares_taken[x][y] = -1;
+                            player_color = ! player_color;
+                            nb_moves++;
                         }
                     }    
                     first_click_done = false;

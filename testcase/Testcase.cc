@@ -1234,9 +1234,14 @@ TEST_CASE("19 : White en passant capture") {
 			
 			v.x = i; v.y = 3;
 			chess.move( v , PAWN1 + i, WHITE );
+			chess.set_nb_moves( chess.get_nb_moves() + 1 );
 			v.x = i + 1; v.y = 3;
+			REQUIRE( chess.is_move_legal( v , PAWN1 + i + 1 , BLACK ) == true );
 			chess.move( v , PAWN1 + i + 1 , BLACK );
+			chess.set_nb_moves( chess.get_nb_moves() + 2 );
 			v.x = i + 1; v.y = 2;
+			REQUIRE( chess.is_move_legal( v , PAWN1 + i , WHITE ) == false ); //en passant capture has to be made immediatly
+			chess.set_nb_moves( chess.get_nb_moves() - 1 );
 			REQUIRE( chess.is_move_legal( v , PAWN1 + i , WHITE ) == true );		
 		}
 		if( i > 0 ){
@@ -1245,9 +1250,14 @@ TEST_CASE("19 : White en passant capture") {
 			
 			v.x = i; v.y = 3;
 			chess.move( v , PAWN1 + i, WHITE );
+			chess.set_nb_moves( chess.get_nb_moves() + 1 );
 			v.x = i - 1; v.y = 3;
+			REQUIRE( chess.is_move_legal( v , PAWN1 + i - 1, BLACK ) == true );
 			chess.move( v , PAWN1 + i - 1 , BLACK );
+			chess.set_nb_moves( chess.get_nb_moves() + 2 );
 			v.x = i - 1; v.y = 2;
+			REQUIRE( chess.is_move_legal( v , PAWN1 + i , WHITE ) == false ); //en passant capture has to be made immediatly
+			chess.set_nb_moves( chess.get_nb_moves() - 1 );
 			REQUIRE( chess.is_move_legal( v , PAWN1 + i , WHITE ) == true );
 		}
 	}	
@@ -1263,9 +1273,14 @@ TEST_CASE("20 : Black en passant capture") {
 			
 			v.x = i; v.y = 4;
 			chess.move( v , PAWN1 + i, BLACK );
+			chess.set_nb_moves( chess.get_nb_moves() + 1 );
 			v.x = i + 1; v.y = 4;
+			REQUIRE( chess.is_move_legal( v , PAWN1 + i + 1 , WHITE ) == true );
 			chess.move( v , PAWN1 + i + 1 , WHITE );
+			chess.set_nb_moves( chess.get_nb_moves() + 2 );
 			v.x = i + 1; v.y = 5;
+			REQUIRE( chess.is_move_legal( v , PAWN1 + i , BLACK ) == false ); //en passant capture has to be made immediatly
+			chess.set_nb_moves( chess.get_nb_moves() - 1 );
 			REQUIRE( chess.is_move_legal( v , PAWN1 + i , BLACK ) == true );		
 		}
 		if( i > 0 ){
@@ -1274,9 +1289,14 @@ TEST_CASE("20 : Black en passant capture") {
 			
 			v.x = i; v.y = 4;
 			chess.move( v , PAWN1 + i, BLACK );
+			chess.set_nb_moves( chess.get_nb_moves() + 1 );
 			v.x = i - 1; v.y = 4;
+			REQUIRE( chess.is_move_legal( v , PAWN1 + i - 1 , WHITE ) == true );
 			chess.move( v , PAWN1 + i - 1 , WHITE );
+			chess.set_nb_moves( chess.get_nb_moves() + 2 );
 			v.x = i - 1; v.y = 5;
+			REQUIRE( chess.is_move_legal( v , PAWN1 + i , BLACK ) == false ); //en passant capture has to be made immediatly
+			chess.set_nb_moves( chess.get_nb_moves() - 1 );
 			REQUIRE( chess.is_move_legal( v , PAWN1 + i , BLACK ) == true );
 		}
 	}

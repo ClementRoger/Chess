@@ -76,6 +76,9 @@ class Chess{
 			}
 		}
 
+		int get_nb_moves(){ return nb_moves; }
+		void set_nb_moves( int n ){ nb_moves = n; }
+
 	private:	
 
 		bool play_again;
@@ -83,6 +86,10 @@ class Chess{
 		bool difficulty; //True if easy, false if difficult
 		bool player_color; //True if white, false if black
 		int squares_taken[8][8]; //1 if white piece on it, 0 if black piece on it, -1 if no piece
+		int x_en_passant;
+		int nb_move_en_passant;
+		int nb_moves;
 		std::vector<Piece> BlackPieces;
 		std::vector<Piece> WhitePieces;
+
 };
