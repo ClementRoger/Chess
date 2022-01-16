@@ -426,6 +426,29 @@ void Chess :: run(){
             if( p.get_is_alive() ){
                 p.display(window , grid);
             }
+        }
+
+        if( first_click_done ){
+            for (int i = 0; i < CHESSBOARD_SIZE_X; ++i){
+                for (int j = 0; j < CHESSBOARD_SIZE_Y; ++j){
+                    sf::Vector2i v;
+                    v.x = i; v.y = j;
+                    if( is_move_legal( v , piece , player_color ) ){
+                        sf::CircleShape circle;
+                        circle.setRadius( SQUARE_SIZE / 8 );
+                        sf::Color color;
+                        if( grid.get_color( i , j ) == 0 ){
+                            color = sf::Color{ 226 , 226 , 226 }; //gray
+                        }
+                        else{
+                            color = sf::Color{ 0 , 92 , 131 }; //blue
+                        }
+                        circle.setFillColor( color );
+                        circle.setPosition( grid.get_rectangle( i , j ).getPosition().x + SQUARE_SIZE / 2 - circle.getRadius() , grid.get_rectangle( i , j ).getPosition().y + SQUARE_SIZE / 2 - circle.getRadius() );    
+                        window.draw(circle);
+                    }
+                }
+            }
         }    
 		
         window.display();

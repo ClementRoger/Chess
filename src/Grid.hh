@@ -13,6 +13,7 @@ class Grid{
 		sf::Vector2i get_square_from_coordinates( int x , int y );
 
 		sf::RectangleShape get_rectangle( size_t i , size_t j ){ return rectangles_array[i][j]; }
+		int get_color( size_t i , size_t j ){ return colors_array[i][j]; }
 
 	private:	
 
