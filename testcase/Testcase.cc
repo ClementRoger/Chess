@@ -1223,3 +1223,61 @@ TEST_CASE("18 : Black queen moves test") {
 	v.x = 1; v.y = 2;
 	REQUIRE( chess.is_move_legal( v , QUEEN , BLACK ) == false );
 }
+
+TEST_CASE("19 : White en passant capture") {
+
+	for (int i = 0; i < CHESSBOARD_SIZE_X; ++i){
+		
+		if( i < 7 ){
+			Chess chess;
+			sf::Vector2i v;
+			
+			v.x = i; v.y = 3;
+			chess.move( v , PAWN1 + i, WHITE );
+			v.x = i + 1; v.y = 3;
+			chess.move( v , PAWN1 + i + 1 , BLACK );
+			v.x = i + 1; v.y = 2;
+			REQUIRE( chess.is_move_legal( v , PAWN1 + i , WHITE ) == true );		
+		}
+		if( i > 0 ){
+			Chess chess;
+			sf::Vector2i v;
+			
+			v.x = i; v.y = 3;
+			chess.move( v , PAWN1 + i, WHITE );
+			v.x = i - 1; v.y = 3;
+			chess.move( v , PAWN1 + i - 1 , BLACK );
+			v.x = i - 1; v.y = 2;
+			REQUIRE( chess.is_move_legal( v , PAWN1 + i , WHITE ) == true );
+		}
+	}	
+}
+
+TEST_CASE("20 : Black en passant capture") {
+
+	for (int i = 0; i < CHESSBOARD_SIZE_X; ++i){
+		
+		if( i < 7 ){
+			Chess chess;
+			sf::Vector2i v;
+			
+			v.x = i; v.y = 4;
+			chess.move( v , PAWN1 + i, BLACK );
+			v.x = i + 1; v.y = 4;
+			chess.move( v , PAWN1 + i + 1 , WHITE );
+			v.x = i + 1; v.y = 5;
+			REQUIRE( chess.is_move_legal( v , PAWN1 + i , BLACK ) == true );		
+		}
+		if( i > 0 ){
+			Chess chess;
+			sf::Vector2i v;
+			
+			v.x = i; v.y = 4;
+			chess.move( v , PAWN1 + i, BLACK );
+			v.x = i - 1; v.y = 4;
+			chess.move( v , PAWN1 + i - 1 , WHITE );
+			v.x = i - 1; v.y = 5;
+			REQUIRE( chess.is_move_legal( v , PAWN1 + i , BLACK ) == true );
+		}
+	}
+}
